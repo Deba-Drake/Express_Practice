@@ -1,0 +1,25 @@
+{
+  "name": "express-practice",
+  "version": "1.0.0",
+  "description": "Practice and Learn Express JS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deba-Drake/Express_Practice.git"
+  },
+  "author": "Debayan Das",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deba-Drake/Express_Practice/issues"
+  },
+  "homepage": "https://github.com/Deba-Drake/Express_Practice#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
