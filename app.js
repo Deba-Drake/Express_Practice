@@ -21,7 +21,34 @@ app.get("/api/v1/tours", (request, response) => {
 });
 
 //to implement the "GET" method for a specific tour
-app.get("/api/v1/tours");
+app.get("/api/v1/tours/:id", (request, response) => {
+  // if ( +request.params.id >data.length)
+  // {
+  //   return
+  // }
+
+  //get the specified tour if present
+  const requested_tour = data.find((tour) => {
+    if (tour.id === +request.params.id) {
+      return tour; // stop searching
+    }
+  });
+
+  //return failed
+  if (!requested_tour) {
+    response.status(404).json({
+      status: "Failed",
+      message: "Invalid ID",
+    });
+  }
+  //returned success
+  else {
+    response.status(200).json({
+      status: "Success",
+      tour: requested_tour,
+    });
+  }
+});
 
 //to implement the "POST" method
 app.post("/api/v1/tours", (request, response) => {
