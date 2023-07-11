@@ -11,17 +11,17 @@ const data = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//to implement the "GET" method for all tours
-app.get("/api/v1/tours", (request, response) => {
+//to get all tours
+const get_all_tours = (request, response) => {
   response.status(200).json({
     status: "Success",
     results: data.length,
     tours: data,
   });
-});
+};
 
-//to implement the "GET" method for a specific tour
-app.get("/api/v1/tours/:id", (request, response) => {
+//to get specified tour
+const get_specified_tour = (request, response) => {
   //get the specified tour if present
   const requested_tour = data.find((tour) => {
     if (tour.id === +request.params.id) {
@@ -43,10 +43,10 @@ app.get("/api/v1/tours/:id", (request, response) => {
       tour: requested_tour,
     });
   }
-});
+};
 
-//to implement the "POST" method
-app.post("/api/v1/tours", (request, response) => {
+//to create a new tour
+const create_tour = (request, response) => {
   // console.log(request.body);
 
   //creating the new "id" for the request recieved
@@ -71,7 +71,73 @@ app.post("/api/v1/tours", (request, response) => {
       }
     }
   );
-});
+};
+
+//to update specified tour
+// to be done after MongoDB is Insitialised
+const update_tour = (request, response) => {
+  //get the specified tour if present
+  const requested_tour = data.find((tour) => {
+    if (tour.id === +request.params.id) {
+      return tour; // stop searching
+    }
+  });
+
+  //return failed
+  if (!requested_tour) {
+    response.status(404).json({
+      status: "Failed",
+      message: "Invalid ID",
+    });
+  }
+  //returned success
+  else {
+    response.status(200).json({
+      status: "Success",
+      requested_tour: requested_tour,
+      tour: "<Patched Tour Here>",
+    });
+  }
+};
+
+//to delete a tour
+// to be done after MongoDB is Insitialised
+const delete_tour = (request, response) => {
+  //get the specified tour if present
+  const requested_tour = data.find((tour) => {
+    if (tour.id === +request.params.id) {
+      return tour; // stop searching
+    }
+  });
+
+  //return failed
+  if (!requested_tour) {
+    response.status(404).json({
+      status: "Failed",
+      message: "Invalid ID",
+    });
+  }
+  //returned success
+  else {
+    response.status(204).json({
+      status: "Success",
+      data: null,
+    });
+  }
+};
+
+//to implement the "GET" method for all tours
+app.get("/api/v1/tours", get_all_tours);
+
+//to implement the "POST" method
+app.post("/api/v1/tours", create_tour);
+
+//to implement the "GET" method, "PATCH" method and "DELETE" method for a specific tour
+app
+  .route("/api/v1/tours/:id")
+  .get(get_specified_tour)
+  .patch(update_tour)
+  .delete(delete_tour);
 
 //to Listen as the port starts
 app.listen(port, "127.0.0.1", () => {
