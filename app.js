@@ -22,11 +22,6 @@ app.get("/api/v1/tours", (request, response) => {
 
 //to implement the "GET" method for a specific tour
 app.get("/api/v1/tours/:id", (request, response) => {
-  // if ( +request.params.id >data.length)
-  // {
-  //   return
-  // }
-
   //get the specified tour if present
   const requested_tour = data.find((tour) => {
     if (tour.id === +request.params.id) {
