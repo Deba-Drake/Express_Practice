@@ -7,6 +7,13 @@ const { dirname } = require("path");
 
 const port = 3000;
 app.use(express.json()); // to get the "json" into the "request"
+
+//Introducing Middleware
+app.use((request, response, next) => {
+  request.requestedTime = new Date().toISOString(); // add "requestedTime" property to the request to know the request time
+  next();
+});
+
 const data = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
@@ -15,6 +22,7 @@ const data = JSON.parse(
 const get_all_tours = (request, response) => {
   response.status(200).json({
     status: "Success",
+    requestedAt: request.requestedTime,
     results: data.length,
     tours: data,
   });
