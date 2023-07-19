@@ -2,13 +2,17 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
+const morgan = require("morgan"); //Third-Party Middleware
 const { request } = require("http");
 const { dirname } = require("path");
 
 const port = 3000;
-app.use(express.json()); // to get the "json" into the "request"
 
-//Introducing Middleware
+//Middleware
+app.use(express.json()); // to get the "json" into the "request"
+app.use(morgan("dev"));
+
+//user created
 app.use((request, response, next) => {
   request.requestedTime = new Date().toISOString(); // add "requestedTime" property to the request to know the request time
   next();
@@ -18,6 +22,7 @@ const data = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+//Route Handlers
 //to get all tours
 const get_all_tours = (request, response) => {
   response.status(200).json({
@@ -134,6 +139,8 @@ const delete_tour = (request, response) => {
   }
 };
 
+//Routes
+
 //to implement the "GET" method for all tours
 app.get("/api/v1/tours", get_all_tours);
 
@@ -147,6 +154,7 @@ app
   .patch(update_tour)
   .delete(delete_tour);
 
+//Server
 //to Listen as the port starts
 app.listen(port, "127.0.0.1", () => {
   console.log(`Started to Listen on ${port}`);
