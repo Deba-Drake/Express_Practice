@@ -23,6 +23,53 @@ const data = JSON.parse(
 );
 
 //Route Handlers
+
+/////////////--------------------USERS---------------------/////////////
+//to get all tours
+const get_all_users = (request, response) => {
+  response.status(500).json({
+    status: "error",
+    message: "Method yet to be implemented",
+  });
+};
+
+//to get specified tour
+const get_specified_user = (request, response) => {
+  response.status(500).json({
+    status: "error",
+    message: "Method yet to be implemented",
+  });
+};
+
+//to create a new tour
+const create_user = (request, response) => {
+  response.status(500).json({
+    status: "error",
+    message: "Method yet to be implemented",
+  });
+};
+
+//to update specified tour
+// to be done after MongoDB is Insitialised
+const update_user = (request, response) => {
+  response.status(500).json({
+    status: "error",
+    message: "Method yet to be implemented",
+  });
+};
+
+//to delete a tour
+// to be done after MongoDB is Insitialised
+const delete_user = (request, response) => {
+  response.status(500).json({
+    status: "error",
+    message: "Method yet to be implemented",
+  });
+};
+
+///////////////////////////----------------------------------------------------------------------------------------------------------///
+
+/////////////--------------------TOURS---------------------/////////////
 //to get all tours
 const get_all_tours = (request, response) => {
   response.status(200).json({
@@ -141,6 +188,18 @@ const delete_tour = (request, response) => {
 
 //Routes
 
+/////////////--------------------USERS---------------------/////////////
+//to implement the "GET" & "POST" method for all users and new user respectively
+app.route("/api/v1/users").get(get_all_users).post(create_user);
+
+//to implement the "GET" method, "PATCH" method and "DELETE" method for a specific user
+app
+  .route("/api/v1/users/:id")
+  .get(get_specified_user)
+  .patch(update_user)
+  .delete(delete_user);
+
+/////////////--------------------TOURS---------------------/////////////
 //to implement the "GET" method for all tours
 app.get("/api/v1/tours", get_all_tours);
 
