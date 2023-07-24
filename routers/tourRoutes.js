@@ -5,6 +5,16 @@ const tour_controller = require("./../controllers/tourController");
 
 //Routes
 
+////////////////////////////---To check for Valid ID before the request hits---////////////////////////////
+/*
+//To use "param" middleware
+express.Router().param("id",(request,response,next,value)=>
+{
+  console.log("The Tour is",value);
+  next();
+})
+*/
+
 /////////////--------------------TOURS---------------------/////////////
 //to implement the "GET" method for all tours
 app.get("/api/v1/tours", tour_controller.get_all_tours);
