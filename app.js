@@ -12,6 +12,8 @@ const user_router = require("./routers/userRoutes");
 app.use(express.json()); // to get the "json" into the "request"
 app.use(morgan("dev"));
 
+app.use(express.static(`${__dirname}/public`)); // to apply middleware for statics inside the public folder
+
 //user created middleware
 app.use((request, response, next) => {
   request.requestedTime = new Date().toISOString(); // add "requestedTime" property to the request to know the request time
