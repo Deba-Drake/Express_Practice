@@ -10,7 +10,10 @@ const user_router = require("./routers/userRoutes");
 
 //Middleware
 app.use(express.json()); // to get the "json" into the "request"
-app.use(morgan("dev"));
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 app.use(express.static(`${__dirname}/public`)); // to apply middleware for statics inside the public folder
 
