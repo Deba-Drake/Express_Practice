@@ -18,36 +18,6 @@ mongoose
     console.log(error);
   });
 
-//Creating and Validating a Database Schema
-const tour_schema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "A tour should be specified"],
-    unique: true,
-  },
-  rating: Number,
-  price: {
-    type: Number,
-    required: [true, "A price should be specified"],
-  },
-});
-//Creating a Database Model
-const Tour = mongoose.model("tour", tour_schema);
-
-//Creating a new Document
-const test_tour = new Tour({
-  name: "The Sky Soarer",
-  price: 497,
-  rating: 4.2,
-});
-
-//Adding it to the Database
-test_tour
-  .save()
-  .then((document) => console.log(document))
-  .catch((error) => {
-    console.log(error);
-  });
 //Server
 //to Listen as the port starts
 app.listen(port, "127.0.0.1", () => {
