@@ -1,5 +1,6 @@
 const fs = require("fs");
 const Tour = require("./../models/tourModel");
+const { error } = require("console");
 
 //To read the data about all "TOURS"
 const data = JSON.parse(
@@ -45,9 +46,25 @@ exports.get_specified_tour = (request, response) => {
 };
 
 //to create a new tour
-exports.create_tour = (request, response) => {
-  // console.log(request.body);
+exports.create_tour = async (request, response) => {
+  //Creating a new Tour in The MongoDB Databse
+  try {
+    const new_tour = await Tour.create(request.body);
 
+    response.status(201).json({
+      status: "Success",
+      data: { tour: new_tour },
+    });
+  } catch (error) {
+    response.status(400).json({
+      status: "Failed",
+      message: "Invalid Data sent",
+    });
+  }
+
+  /*
+  //Creating a new Tour in the simple-tours-json File
+  
   //creating the new "id" for the request recieved
   const new_id = data[data.length - 1].id + 1;
 
@@ -70,6 +87,7 @@ exports.create_tour = (request, response) => {
       }
     }
   );
+  */
 };
 
 //to update specified tour
