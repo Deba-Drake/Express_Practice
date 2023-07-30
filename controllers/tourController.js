@@ -11,17 +11,43 @@ const data = JSON.parse(
 
 /////////////--------------------TOURS---------------------/////////////
 //to get all tours
-exports.get_all_tours = (request, response) => {
-  response.status(200).json({
-    status: "Success",
-    requestedAt: request.requestedTime,
-    results: data.length,
-    tours: data,
-  });
+exports.get_all_tours = async (request, response) => {
+  //Get the All Tours from the Database
+  try {
+    const requested_tours = await Tour.find();
+    response.status(200).json({
+      status: "Success",
+      // requestedAt: request.requestedTime,
+      results: requested_tours.length,
+      data: { tours: requested_tours },
+    });
+  } catch (error) {
+    response.status(404).json({
+      status: "Failed",
+      message: "No Tours Found",
+    });
+  }
 };
 
 //to get specified tour
-exports.get_specified_tour = (request, response) => {
+exports.get_specified_tour = async (request, response) => {
+  //Get the Specified Tour from the Database
+  try {
+    const requested_tour = await Tour.findById(request.params.id);
+
+    response.status(200).json({
+      status: "Success",
+      tour: requested_tour,
+    });
+  } catch (error) {
+    response.status(404).json({
+      status: "Failed",
+      message: "Invalid ID",
+    });
+  }
+
+  /*
+  //Get the Specified Tour from the tours-simple.json
   //get the specified tour if present
   const requested_tour = data.find((tour) => {
     if (tour.id === +request.params.id) {
@@ -43,6 +69,7 @@ exports.get_specified_tour = (request, response) => {
       tour: requested_tour,
     });
   }
+  */
 };
 
 //to create a new tour
@@ -63,7 +90,7 @@ exports.create_tour = async (request, response) => {
   }
 
   /*
-  //Creating a new Tour in the simple-tours-json File
+  //Creating a new Tour in the tours-simple.json File
   
   //creating the new "id" for the request recieved
   const new_id = data[data.length - 1].id + 1;
