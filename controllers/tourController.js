@@ -1,6 +1,7 @@
 const fs = require("fs");
+const Tour = require("./../models/tourModel");
 
-//To read the data about "TOURS"
+//To read the data about all "TOURS"
 const data = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
