@@ -4,13 +4,63 @@ const mongoose = require("mongoose");
 const tour_schema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "A tour should be specified"],
+    required: [true, "A Tour should be specified"],
     unique: true,
+    trim: true,
+    minlength: [5, "Tour name should be at least 5 characters long"],
   },
-  rating: Number,
+  duration: {
+    type: Number,
+    required: [true, "A Duration should be specified"],
+  },
+  maxGroupSize: {
+    type: Number,
+    min: [2, "Group size cannot be less than 2"],
+    max: [100, "Group size cannot exceed 100"],
+  },
+  difficulty: {
+    type: String,
+    required: [true, "A Difficulty should be specified"],
+  },
+  ratingsAverage: {
+    type: Number,
+    min: [1, "Rating cannot be less than 1"],
+    max: [5, "Rating size cannot exceed 5"],
+    default: 4.0,
+  },
+  ratingsQuantity: {
+    type: Number,
+    default: 0,
+  },
   price: {
     type: Number,
-    required: [true, "A price should be specified"],
+    required: [true, "A Price should be specified"],
+  },
+  priceDiscount: Number,
+  summary: {
+    type: String,
+    required: [true, "A Summary should be specified"],
+    trim: true,
+    minlength: [4, "The Summary should be at least 4 characters long"],
+  },
+  description: {
+    type: String,
+    trim: true,
+    minlength: [30, "The Description should be at least 30 characters long"],
+  },
+  imageCover: {
+    type: String,
+    required: [true, "A Image should be specified"],
+  },
+  images: {
+    type: [String],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  startDates: {
+    type: [Date],
   },
 });
 //Creating a Database Model
