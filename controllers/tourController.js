@@ -139,7 +139,7 @@ exports.update_tour = async (request, response) => {
     });
   }
 
-  //Get the Specified Tour from the tours-simple.json
+  //Update the Specified Tour from the tours-simple.json
   /*
   //get the specified tour if present
   const requested_tour = data.find((tour) => {
@@ -168,7 +168,23 @@ exports.update_tour = async (request, response) => {
 
 //to delete a tour
 // to be done after MongoDB is Insitialised
-exports.delete_tour = (request, response) => {
+exports.delete_tour = async (request, response) => {
+  //Deleting a new Tour in The MongoDB Databse
+  try {
+    const deleted_tour = await Tour.findByIdAndDelete(request.params.id);
+    response.status(200).json({
+      status: "Success",
+      tour: deleted_tour,
+    });
+  } catch (error) {
+    console.log("The error is", error);
+    response.status(400).json({
+      status: "Failed",
+      message: "Invalid Data sent",
+    });
+  }
+  //Get the Specified Tour from the tours-simple.json
+  /*
   //get the specified tour if present
   const requested_tour = data.find((tour) => {
     if (tour.id === +request.params.id) {
@@ -190,4 +206,5 @@ exports.delete_tour = (request, response) => {
       data: null,
     });
   }
+  */
 };
