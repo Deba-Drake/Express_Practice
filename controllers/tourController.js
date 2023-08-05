@@ -1,6 +1,7 @@
 const fs = require("fs");
 const Tour = require("./../models/tourModel");
 const { error } = require("console");
+const { options } = require("../app");
 
 //To read the data about all "TOURS"
 const data = JSON.parse(
@@ -119,7 +120,27 @@ exports.create_tour = async (request, response) => {
 
 //to update specified tour
 // to be done after MongoDB is Insitialised
-exports.update_tour = (request, response) => {
+exports.update_tour = async (request, response) => {
+  //Updating a new Tour in The MongoDB Databse
+  try {
+    const requested_tour = await Tour.findByIdAndUpdate(
+      request.params.id,
+      request.body,
+      { new: true, runValidators: true }
+    );
+    response.status(200).json({
+      status: "Success",
+      tour: requested_tour,
+    });
+  } catch (error) {
+    response.status(400).json({
+      status: "Failed",
+      message: "Invalid Data sent",
+    });
+  }
+
+  //Get the Specified Tour from the tours-simple.json
+  /*
   //get the specified tour if present
   const requested_tour = data.find((tour) => {
     if (tour.id === +request.params.id) {
@@ -142,6 +163,7 @@ exports.update_tour = (request, response) => {
       tour: "<Patched Tour Here>",
     });
   }
+  */
 };
 
 //to delete a tour
