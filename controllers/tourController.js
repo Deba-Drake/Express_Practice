@@ -40,7 +40,15 @@ exports.get_all_tours = async (request, response) => {
     //to change the string into a query
     requested_query_string = JSON.parse(requested_query_string);
 
-    const query = Tour.find(requested_query_string);
+    let query = Tour.find(requested_query_string);
+
+    //SORTING
+    if (request.query.sort) {
+      const sort_by = request.query.sort.split(",").join(" ");
+      query = query.sort(sort_by);
+    } else {
+      query = query.sort("-createdAt");
+    }
 
     const requested_tours = await query;
 
