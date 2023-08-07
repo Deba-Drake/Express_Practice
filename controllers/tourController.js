@@ -2,6 +2,7 @@ const fs = require("fs");
 const Tour = require("./../models/tourModel");
 const { error } = require("console");
 const { options } = require("../app");
+const { json } = require("express");
 
 //To read the data about all "TOURS"
 const data = JSON.parse(
@@ -15,6 +16,8 @@ const data = JSON.parse(
 exports.get_all_tours = async (request, response) => {
   //Get the All Tours from the Database
   try {
+    //FILTERING
+
     //to make a new object out of the query to the original intact
     const requested_query = { ...request.query };
 
@@ -24,7 +27,21 @@ exports.get_all_tours = async (request, response) => {
     //removing the parameters
     exclude_from_query.forEach((element) => delete requested_query[element]);
 
-    const query = Tour.find(requested_query);
+    //ADVANCE FILTERING
+
+    //to change the query into a string
+    let requested_query_string = JSON.stringify(requested_query);
+
+    //to create the applicable string
+    requested_query_string = requested_query_string.replace(
+      /\b(gte|gt|lte|lt)\b/g,
+      (matched_word) => `$${matched_word}`
+    );
+    //to change the string into a query
+    requested_query_string = JSON.parse(requested_query_string);
+
+    const query = Tour.find(requested_query_string);
+
     const requested_tours = await query;
 
     response.status(200).json({
