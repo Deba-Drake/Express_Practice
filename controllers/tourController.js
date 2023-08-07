@@ -15,7 +15,18 @@ const data = JSON.parse(
 exports.get_all_tours = async (request, response) => {
   //Get the All Tours from the Database
   try {
-    const requested_tours = await Tour.find();
+    //to make a new object out of the query to the original intact
+    const requested_query = { ...request.query };
+
+    //the parameters we need to exclude
+    const exclude_from_query = ["page", "sort", "limit", "fields"];
+
+    //removing the parameters
+    exclude_from_query.forEach((element) => delete requested_query[element]);
+
+    const query = Tour.find(requested_query);
+    const requested_tours = await query;
+
     response.status(200).json({
       status: "Success",
       // requestedAt: request.requestedTime,
