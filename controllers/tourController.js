@@ -17,7 +17,6 @@ exports.get_all_tours = async (request, response) => {
   //Get the All Tours from the Database
   try {
     //FILTERING
-
     //to make a new object out of the query to the original intact
     const requested_query = { ...request.query };
 
@@ -28,7 +27,6 @@ exports.get_all_tours = async (request, response) => {
     exclude_from_query.forEach((element) => delete requested_query[element]);
 
     //ADVANCE FILTERING
-
     //to change the query into a string
     let requested_query_string = JSON.stringify(requested_query);
 
@@ -48,6 +46,14 @@ exports.get_all_tours = async (request, response) => {
       query = query.sort(sort_by);
     } else {
       query = query.sort("-createdAt");
+    }
+
+    //PROJECTION
+    if (request.query.fields) {
+      const fields = request.query.fields.split(",").join(" ");
+      query = query.select(fields);
+    } else {
+      query = query.select("-__v");
     }
 
     const requested_tours = await query;
